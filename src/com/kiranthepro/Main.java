@@ -22,6 +22,45 @@ public class Main {
 
         System.out.println(getSumOfHand(allDealtCards.get("computerNumbers")));
         System.out.println(getSumOfHand(allDealtCards.get("playerNumbers")));
+        
+        int playerTotal = 0;
+        int decision = 0;
+        boolean playerPlaying = true; // not decided to stay yet
+        boolean playerBust = false; // < 21
+        boolean playerWon = false;
+        
+        while (playerPlaying && !playerBust && !playerWon) {
+            // winner is whoever has the highest number <= 21
+            // challenge is risking receiving a card which brings the total less than 21
+            playerTotal = getSumOfHand(allDealtCards.get("playerNumbers"));
+            showHand(allDealtCards.get("playerNumbers"));
+
+            if (playerTotal < 21) {
+                // still playing
+                decision = makeDecision(scanner);
+
+                if (decision == decision_receive) {
+                    receiveCard(allDealtCards.get("playerNumbers"), 11, 1, random);
+                    System.out.println("Dealing card... \nYour new card is: " + getLastDealtCard(allDealtCards.get("playerNumbers")));
+                    showHand(allDealtCards.get("playerNumbers"));
+                } else if (decision == decision_stay) {
+
+                    System.out.println("Okay, the computer will now make its moves.");
+                    playerPlaying = false;
+                }
+
+            } else if (playerTotal > 21) {
+                // bust
+                playerBust = true;
+            } else {
+                // won
+                System.out.println("won!");
+                playerWon = true;
+            }
+        }
+
+        calculateEnd(playerBust, playerWon, allDealtCards, random);
+
     }
 
 
@@ -47,8 +86,8 @@ public class Main {
     }
 
 
-    public int makeDecision(Scanner scanner) {
-        System.out.println("What would you like to do?\ns) Stay with your card\nr) Receive another card");
+    public static int makeDecision(Scanner scanner) {
+        System.out.println("\nWhat would you like to do?\ns) Stay with your card\nr) Receive another card");
 
         String userInput = scanner.next();
 
@@ -76,8 +115,53 @@ public class Main {
 
         return sum;
     }
+    
+    public static void showHand(int[] hand) {
+        System.out.print("Your cards are: ");
+        for (int card: hand) {
+            if (card != 0) {
+                System.out.print(card + "  ");
+            } else {
+                break;
+            }
+        }
+        System.out.println("And your total is currently at " + getSumOfHand(hand) + "\n");
+    }
 
-    public int checkIfWonLost() {
+    public static void receiveCard(int[] hand, int upperBound, int lowerBound, Random random) {
+        for (int card = 0; card < hand.length; card++) {
+            if (hand[card] == 0) {
+                hand[card] = random.nextInt(upperBound) + lowerBound;
+                break;
+            }
+        }
+    }
+
+    public static int getLastDealtCard(int[] hand) {
+        for (int card = 0; card < hand.length; card++) {
+            if (hand[card] == 0) {
+                return hand[card-1];
+            }
+        }
         return 0;
     }
+
+    public static void calculateEnd(boolean playerBust, boolean playerWon, Map<String, int[]> allDealtCards, Random random) {
+        if (playerBust) {
+            System.out.println("You went bust. You Lose. THE END. COMPUTER WON.");
+        } else if (playerWon) {
+            System.out.println("You WON! Congrats!");
+        } else {
+            System.out.println("Comp making moves. Will calculate who won after moves are made.");
+
+
+        }
+    }
+
+    while (getSumOfHand(allDealtCards.get("computerNumbers")) < 17) {
+        // whilst total < 17, keep receiving cards
+        receiveCard(allDealtCards.get("computerNumbers"), 11, 1, random);
+
+    }
+
 }
