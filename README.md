@@ -16,6 +16,10 @@ Computer Win:
 
 <img src="https://github.com/Chaitran77/Blackjack/blob/master/computer_win_test_case.png" alt="Computer Win" width="50%"/>
 
+Player Win, play again, bust, exit:
+
+<img src="https://github.com/Chaitran77/Blackjack/blob/master/play_again_test_case.png" alt="Play again test case" width="70%"/>
+
 <!-- !
 ![User bust 2](./bust2_test_case.png)]
 
