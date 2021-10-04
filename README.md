@@ -5,8 +5,18 @@ The user can play a simple game of blackjack against the computer.
 Tests:
 
 Player Bust:
-<img src="./bust_test_case.png" alt="User bust" width="50%"/>
-<!-- ![User bust](./bust_test_case.png)
+
+<img src="https://github.com/Chaitran77/Blackjack/blob/master/bust_test_case.png" alt="Player bust" width="50%"/><img src="https://github.com/Chaitran77/Blackjack/blob/master/bust2_test_case.png" alt="Player bust 2" width="50%"/>
+
+Player Win: 
+
+<img src="https://github.com/Chaitran77/Blackjack/blob/master/player_win_test_case.png" alt="Player Win" width="50%"/>
+
+Computer Win:
+
+<img src="https://github.com/Chaitran77/Blackjack/blob/master/computer_win_test_case.png" alt="Computer Win" width="50%"/>
+
+<!-- !
 ![User bust 2](./bust2_test_case.png)]
 
 Player Win:
