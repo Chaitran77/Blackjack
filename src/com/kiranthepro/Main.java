@@ -13,6 +13,7 @@ public class Main {
         Random random = new Random();
 
         gameLoop(scanner, random);
+
     }
 
     public static void gameLoop(Scanner scanner, Random random) {
@@ -62,7 +63,7 @@ public class Main {
             makeComputerMoves(allDealtCards, random);
         }
 
-        calculateEnd(playerBust, playerWon, allDealtCards, random);
+        calculateEnd(playerBust, playerWon, allDealtCards, scanner, random);
 
     }
 
@@ -149,7 +150,7 @@ public class Main {
         return 0;
     }
 
-    public static void calculateEnd(boolean playerBust, boolean playerWon, Map<String, int[]> allDealtCards, Random random) {
+    public static void calculateEnd(boolean playerBust, boolean playerWon, Map<String, int[]> allDealtCards, Scanner scanner, Random random) {
         if (playerBust) {
             System.out.println("You went bust. You Lose. THE END. COMPUTER WON. OOF");
             stateComputerEndValue(allDealtCards);
@@ -173,6 +174,8 @@ public class Main {
             }
 
         }
+
+        playAgainPrompt(scanner, random);
     }
 
     public static void stateComputerEndValue(Map<String, int[]> allDealtCards) {
@@ -186,6 +189,22 @@ public class Main {
         }
 
         // stay
+    }
+
+    public static void playAgainPrompt(Scanner scanner, Random random) {
+        System.out.println("Would you like to play again? (y/n)");
+        switch (scanner.next().toLowerCase().charAt(0)) {
+            case 'y':
+                System.out.println("Nice! Starting a new game: ");
+                gameLoop(scanner, random);
+                break;
+            case 'n':
+                System.out.println("Okay then, thanks for playing. Goodbye.");
+                break;
+            default:
+                System.out.println("Not understood :( Please check what you are typing and try again:");
+                playAgainPrompt(scanner, random);
+        }
     }
 
 }
