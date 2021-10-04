@@ -17,14 +17,14 @@ public class Main {
 
     public static void gameLoop(Scanner scanner, Random random) {
         Map<String, int[]> allDealtCards = generateStartingNumbers(random, 11,1);
-        System.out.println(Arrays.toString(allDealtCards.get("computerNumbers")));
-        System.out.println(Arrays.toString(allDealtCards.get("playerNumbers")));
-
-        System.out.println(getSumOfHand(allDealtCards.get("computerNumbers")));
-        System.out.println(getSumOfHand(allDealtCards.get("playerNumbers")));
+//        System.out.println(Arrays.toString(allDealtCards.get("computerNumbers")));
+//        System.out.println(Arrays.toString(allDealtCards.get("playerNumbers")));
+//
+//        System.out.println(getSumOfHand(allDealtCards.get("computerNumbers")));
+//        System.out.println(getSumOfHand(allDealtCards.get("playerNumbers")));
         
-        int playerTotal = 0;
-        int decision = 0;
+        int playerTotal;
+        int decision;
         boolean playerPlaying = true; // not decided to stay yet
         boolean playerBust = false; // < 21
         boolean playerWon = false;
@@ -42,7 +42,6 @@ public class Main {
                 if (decision == decision_receive) {
                     receiveCard(allDealtCards.get("playerNumbers"), 11, 1, random);
                     System.out.println("Dealing card... \nYour new card is: " + getLastDealtCard(allDealtCards.get("playerNumbers")));
-                    showHand(allDealtCards.get("playerNumbers"));
                 } else if (decision == decision_stay) {
 
                     System.out.println("Okay, the computer will now make its moves.");
@@ -57,6 +56,10 @@ public class Main {
                 System.out.println("won!");
                 playerWon = true;
             }
+        }
+        if (!playerBust && !playerWon) {
+            System.out.println("Comp making moves. Will calculate who won after moves are made.");
+            makeComputerMoves(allDealtCards, random);
         }
 
         calculateEnd(playerBust, playerWon, allDealtCards, random);
@@ -109,8 +112,8 @@ public class Main {
     public static int getSumOfHand(int[] hand) {
         int sum = 0;
 
-        for (int card = 0; card < hand.length; card++) {
-            sum += hand[card];
+        for (int i : hand) {
+            sum += i;
         }
 
         return sum;
@@ -148,20 +151,41 @@ public class Main {
 
     public static void calculateEnd(boolean playerBust, boolean playerWon, Map<String, int[]> allDealtCards, Random random) {
         if (playerBust) {
-            System.out.println("You went bust. You Lose. THE END. COMPUTER WON.");
+            System.out.println("You went bust. You Lose. THE END. COMPUTER WON. OOF");
+            stateComputerEndValue(allDealtCards);
         } else if (playerWon) {
             System.out.println("You WON! Congrats!");
+            stateComputerEndValue(allDealtCards);
         } else {
-            System.out.println("Comp making moves. Will calculate who won after moves are made.");
-
+            // player not bust but computer might be
+            if (getSumOfHand(allDealtCards.get("computerNumbers")) <= 21) {
+                if (getSumOfHand(allDealtCards.get("computerNumbers")) > getSumOfHand(allDealtCards.get("playerNumbers"))) {
+                    System.out.println("Computer got a higher score. You Lose. THE END. COMPUTER WON. OOF");
+                    stateComputerEndValue(allDealtCards);
+                } else {
+                    System.out.println("You WON! Congrats");
+                    stateComputerEndValue(allDealtCards);
+                }
+            } else {
+                // computer bust
+                System.out.println("Computer went bust. You therefore WON! Congrats!");
+                stateComputerEndValue(allDealtCards);
+            }
 
         }
     }
 
-    while (getSumOfHand(allDealtCards.get("computerNumbers")) < 17) {
-        // whilst total < 17, keep receiving cards
-        receiveCard(allDealtCards.get("computerNumbers"), 11, 1, random);
+    public static void stateComputerEndValue(Map<String, int[]> allDealtCards) {
+        System.out.println("The computer had " + getSumOfHand(allDealtCards.get("computerNumbers")));
+    }
 
+    public static void makeComputerMoves(Map<String, int[]> allDealtCards, Random random) {
+        while (getSumOfHand(allDealtCards.get("computerNumbers")) < 17) {
+            // whilst total < 17, keep receiving cards
+            receiveCard(allDealtCards.get("computerNumbers"), 11, 1, random);
+        }
+
+        // stay
     }
 
 }
