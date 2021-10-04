@@ -194,16 +194,15 @@ public class Main {
     public static void playAgainPrompt(Scanner scanner, Random random) {
         System.out.println("Would you like to play again? (y/n)");
         switch (scanner.next().toLowerCase().charAt(0)) {
-            case 'y':
+            case 'y' -> {
                 System.out.println("Nice! Starting a new game: ");
                 gameLoop(scanner, random);
-                break;
-            case 'n':
-                System.out.println("Okay then, thanks for playing. Goodbye.");
-                break;
-            default:
+            }
+            case 'n' -> System.out.println("Okay then, thanks for playing. Goodbye.");
+            default -> {
                 System.out.println("Not understood :( Please check what you are typing and try again:");
                 playAgainPrompt(scanner, random);
+            }
         }
     }
 
