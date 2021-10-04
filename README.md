@@ -6,11 +6,11 @@ Tests:
 
 Player Bust:
 
-!(User bust)[./bust_test_case.png]
-!(User bust 2)[./bust2_test_case.png]
+![User bust](./bust_test_case.png)
+![User bust 2](./bust2_test_case.png)
 
 Player Win:
-!(Player win)[./player_win_test_case.png]
+![Player win](./player_win_test_case.png)
 
 Computer Win:
-!(Computer win)[./computer_win_test_case.png]
+![Computer win](./computer_win_test_case.png)
